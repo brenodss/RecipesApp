@@ -13,7 +13,7 @@ const Login = ({ history }) => {
   const disableButton = () => {
     const passwordLength = 6;
     if (validateEmail(user.email) === false
-    || user.password.length < passwordLength) {
+    || user.password.length <= passwordLength) {
       setIsDisable(true);
       return;
     }
@@ -28,7 +28,7 @@ const Login = ({ history }) => {
     localStorage.setItem('user', JSON.stringify({ email: user.email }));
     localStorage.setItem('mealsToken', 1);
     localStorage.setItem('cocktailsToken', 1);
-    history.push('/home');
+    history.push('/foods');
   };
 
   useEffect(() => {
