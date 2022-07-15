@@ -2,6 +2,7 @@ import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import Login from './componentes/Login';
 import Provider from './context/myProvider';
+
 import Foods from './pages/Foods';
 import Drinks from './pages/Drinks';
 import Profile from './pages/Profile';
@@ -24,7 +25,6 @@ function App() {
         <Route path="/favorite-recipes" component={ FavoriteRecipes } />
       </Provider>
     </Switch>
-
   );
 }
 
