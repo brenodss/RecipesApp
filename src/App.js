@@ -8,28 +8,24 @@ import Drinks from './pages/Drinks';
 import Profile from './pages/Profile';
 import DoneRecipes from './pages/DoneRecipes';
 import FavoriteRecipes from './pages/FavoriteRecipes';
+import Recipes from './pages/Recipes';
 
 function App() {
   return (
-    <Switch>
-      <Provider>
+    <Provider>
+      <Switch>
         <Route exact path="/" component={ Login } />
         <Route exact path="/foods" component={ Foods } />
         <Route exact path="/drinks" component={ Drinks } />
         <Route path="/foods/:id" component={ Foods } />
-        <Route
-          path="/drinks/:id"
-          render={ (props) => (<Recipes
-            { ...props }
-          />) }
-        />
+        <Route path="/drinks/:id" render={ (props) => (<Recipes { ...props } />) } />
         <Route path="/foods/:id/in-progress" />
         <Route path="/drinks/:id/in-progress" />
         <Route path="/profile" component={ Profile } />
         <Route path="/done-recipes" component={ DoneRecipes } />
         <Route path="/favorite-recipes" component={ FavoriteRecipes } />
-      </Provider>
-    </Switch>
+      </Switch>
+    </Provider>
   );
 }
 
