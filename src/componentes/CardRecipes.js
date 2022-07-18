@@ -14,7 +14,7 @@ const CardsRecipes = () => {
 
   return (
     <div style={ { textAlign: 'center' } }>
-      {recipe[rota] && firstTwelve.map((meal, i) => (
+      {firstTwelve && firstTwelve.map((meal, i) => (
         <div
           data-testid={ `${i}-recipe-card` }
           key={ i }
