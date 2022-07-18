@@ -9,7 +9,7 @@ const Provider = ({ children }) => {
   });
   const [input, setInput] = useState('');
   const [recipe, setRecipe] = useState({});
-  const [type, setType] = useState('');
+  // const [type, setType] = useState('');
 
   const globalState = {
     user,
