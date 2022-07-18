@@ -7,10 +7,17 @@ const Provider = ({ children }) => {
     email: '',
     password: '',
   });
+  const [input, setInput] = useState('');
+  const [recipe, setRecipe] = useState({});
+  // const [type, setType] = useState('');
 
   const globalState = {
     user,
     setUser,
+    input,
+    setInput,
+    recipe,
+    setRecipe,
   };
 
   return (
