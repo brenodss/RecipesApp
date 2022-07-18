@@ -9,6 +9,7 @@ const Header = ({ title }) => {
   const { input, setInput } = useContext(MyContext);
   const history = useHistory();
   const [searchBarEnable, setSearchBarEnable] = useState(false);
+  // const title = history.location.pathname === '/foods' ? 'Foods' : 'Drinks';
 
   return (
     <header>

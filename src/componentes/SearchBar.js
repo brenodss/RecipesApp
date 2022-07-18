@@ -33,10 +33,13 @@ const Search = () => {
 
   useEffect(() => {
     const recipeLength = 1;
-    const id = recipe.length > 0 && Object.keys(recipe[0]);
-    if (recipe?.drinks?.length === recipeLength
-      || recipe?.foods?.length === recipeLength) {
-      history.push(`${history.location.pathname}/${recipe[0][id]}`); // <--
+    const rota = history.location.pathname === '/foods' ? 'meals' : 'drinks';
+    const id = recipe[rota]?.length > 0 && Object.values(recipe[rota][0]);
+    if ((recipe?.drinks?.length === recipeLength
+      || recipe?.meals?.length === recipeLength)
+      && (history.location.pathname === '/foods'
+      || history.location.pathname === '/drinks')) {
+      history.push(`${history.location.pathname}/${id[0]}`); // <--
     }
   }, [recipe]);
 
