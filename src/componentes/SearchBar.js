@@ -14,11 +14,22 @@ import myContext from '../context/myContext';
 const Search = () => {
   const { input, recipe, setRecipe } = useContext(myContext);
   const [radio, setRadio] = useState('');
-
   const history = useHistory();
+
+  const rota = history.location.pathname === '/foods'
+    ? 'meals' : 'drinks';
 
   const handleRadios = ({ target }) => {
     setRadio(target.value);
+  };
+
+  const getRecipes = async (url) => {
+    const getResults = await fetch(url);
+    const data = await getResults.json();
+    if (!data[rota]) {
+      return global.alert('Sorry, we haven\'t found any recipes for these filters.');
+    }
+    setRecipe(data);
   };
 
   const handleFetchs = async (url) => {
@@ -26,14 +37,11 @@ const Search = () => {
       global.alert('Your search must have only 1 (one) character');
       return;
     }
-    const getResults = await fetch(url);
-    const data = await getResults.json();
-    setRecipe(data);
+    getRecipes(url);
   };
 
   useEffect(() => {
     const recipeLength = 1;
-    const rota = history.location.pathname === '/foods' ? 'meals' : 'drinks';
     const id = recipe[rota]?.length > 0 && Object.values(recipe[rota][0]);
     if ((recipe?.drinks?.length === recipeLength
       || recipe?.meals?.length === recipeLength)
