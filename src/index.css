@@ -5,6 +5,8 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background: url('./images/pexels-klaus-nielsen-6287362.jpg');
+  background-size: 100%;
 }
 
 code {
