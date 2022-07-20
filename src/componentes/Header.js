@@ -29,7 +29,10 @@ const Header = ({ title }) => {
         </label>
       )}
       <h1 data-testid="page-title">{title}</h1>
-      <button type="button" onClick={ () => history.push('/profile') }>
+      <button
+        type="button"
+        onClick={ () => history.push('/profile') }
+      >
         <img
           data-testid="profile-top-btn"
           src={ profileIcon }
