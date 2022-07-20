@@ -50,6 +50,17 @@ describe('Testa o SearchBar da aplicação', () => {
     });
   });
 
+  /*   test('3-testa se aparece alert se chamado com a duas letras', () => {
+    const ALERT_TEXT = 'Your search must have only 1 (one) character';
+    jest.spyOn(global, 'alert')
+      .mockImplementation(() => ALERT_TEXT);
+    userEvent.click(screen.getByTestId(SEARCH_TOP_BTN));
+    userEvent.click(screen.getByTestId('first-letter-search-radio'));
+    userEvent.type(screen.queryByTestId(SEARCH_INPUT), 'xx');
+    userEvent.click(screen.getByTestId(EXER_SEARCH_BTN));
+    expect(global.alert()).toBe(ALERT_TEXT);
+  }); */
+
   test('4 - testa se aparece um alert caso nenhum item seja encontrado', async () => {
     const ALERT_TEXT = 'Sorry, we haven\'t found any recipes for these filters.';
     jest.spyOn(global, 'alert')
