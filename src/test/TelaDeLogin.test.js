@@ -1,12 +1,12 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import App from '../App';
-/* import renderWithRouter from './renderWithRouter'; */
+import renderWithRouterDois from './renderWithRouteDois';
 
 describe('Testa a tela de login', () => {
   beforeEach(() => {
-    render(<App />);
+    renderWithRouterDois(<App />);
   });
 
   test('1 - testa os inputs da tela de login', () => {
@@ -49,6 +49,6 @@ describe('Testa a tela de login', () => {
     expect(submitBtn).not.toBeDisabled();
 
     userEvent.click(submitBtn);
-    expect(window.location.pathname).toBe('/foods');
+    expect(screen.getByTestId('search-top-btn')).toBeInTheDocument();
   });
 });
