@@ -9,7 +9,8 @@ const Recipes = () => {
   const { recipe, setSelected, selected } = useContext(myContext); // <-- pesquisa por ingred, letra ou nome
   const [categorys, setCategorys] = useState([]); // <-- lista de botões
   const [beforeSearch, setBeforeSearch] = useState([]); // <-- receitas padrão
-  const [filtered, setFiltered] = useState([]);
+  const [filtered, setFiltered] = useState([]); // <-- receitas por categoria
+  const [toggleFilter, setToggleFilter] = useState(false);
 
   const Doze = 12;
   const Cinco = 5;
@@ -53,11 +54,17 @@ const Recipes = () => {
   }, []);
 
   const handleButton = async (category) => {
+    if (toggleFilter) {
+      setSelected('beforeSearch');
+      return setToggleFilter(false);
+    }
+
     const url = rota === 'meals' ? `https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}` : `https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${category}`;
 
     const FilteredRecipes = await fetch(url);
     const jsonFilter = await FilteredRecipes.json();
     setSelected('category');
+    setToggleFilter(true);
     setFiltered(jsonFilter);
   };
 
