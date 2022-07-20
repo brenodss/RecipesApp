@@ -12,8 +12,9 @@ import myContext from '../context/myContext';
 // www.themealdb.com/api/json/v1/1/filter.php?i=chicken_breast
 
 const Search = () => {
-  const { input, recipe, setRecipe } = useContext(myContext);
+  const { input, recipe, setRecipe, setSelected } = useContext(myContext);
   const [radio, setRadio] = useState('');
+
   const history = useHistory();
 
   const rota = history.location.pathname === '/foods'
@@ -47,11 +48,13 @@ const Search = () => {
       || recipe?.meals?.length === recipeLength)
       && (history.location.pathname === '/foods'
       || history.location.pathname === '/drinks')) {
+      console.log(id);
       history.push(`${history.location.pathname}/${id[0]}`); // <--
     }
   }, [recipe]);
 
   const handleButton = async () => {
+    setSelected('search');
     const pageLocation = history.location.pathname;
     let ingred = '';
     let nome = '';
