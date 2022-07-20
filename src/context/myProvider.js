@@ -9,6 +9,8 @@ const Provider = ({ children }) => {
   });
   const [input, setInput] = useState('');
   const [recipe, setRecipe] = useState({});
+  const [selected, setSelected] = useState([]);
+
   // const [type, setType] = useState('');
 
   const globalState = {
@@ -18,6 +20,8 @@ const Provider = ({ children }) => {
     setInput,
     recipe,
     setRecipe,
+    selected,
+    setSelected,
   };
 
   return (
