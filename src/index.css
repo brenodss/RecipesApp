@@ -5,7 +5,8 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: url('./images/pexels-klaus-nielsen-6287362.jpg');
+  /* background: url('images/saladaTomates.jpg'); */
+  background: url('images/pexels-pixabay-326268.jpg');
   background-size: 100%;
 }
 

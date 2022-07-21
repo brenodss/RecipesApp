@@ -17,7 +17,7 @@ const Recipes = () => {
 
   const rota = history.location.pathname === '/foods' ? 'meals' : 'drinks';
 
-  const id = history.location.pathname === '/foods' ? 'idMeal' : 'idDrink';
+  const id = rota === 'meals' ? 'idMeal' : 'idDrink';
 
   const afterOrBeforeSearch = () => {
     if (selected === 'beforeSearch') return beforeSearch[rota]?.slice(0, Doze);
