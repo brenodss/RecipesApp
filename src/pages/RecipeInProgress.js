@@ -1,9 +1,11 @@
-import React, { useContext /* useEffect */ } from 'react';
-import context from '../context/myContext';
+import React, { /* useContext  */ useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
+/* import context from '../context/myContext'; */
 import '../style/RecipeInProgress.css';
 
 const RecipesInProgress = () => {
-  const contexto = useContext(context);
+  /*  const contexto = useContext(context); */
+  const history = useHistory();
   const handleClick = (target) => {
     const completed = target.parentNode;
     completed.className = 'completed';
@@ -11,9 +13,15 @@ const RecipesInProgress = () => {
       JSON.stringify([completed]));
   };
 
+  useEffect(() => {
+    const rota = history.location.pathname === '/foods' ? 'meals' : 'drinks';
+    const idRecipe = match.params.id;
+    const url = rota === 'meals' ? `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${idRecipe}` : `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${idRecipe}`;
+    console.log(url);
+  }, []);
+
   return (
     <>
-      {console.log(contexto)}
       <h1>Recipes In Progress</h1>
       <div>
         <img
