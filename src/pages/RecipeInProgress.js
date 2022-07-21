@@ -20,7 +20,7 @@ const RecipesInProgress = () => {
     console.log(name);
     const RecipeFromId = await fetch(url);
     const data = await RecipeFromId.json();
-    const info = data[name][0];
+    const info = await data[name][0];
     setRecipe(info);
     console.log(data);
     console.log(info);
@@ -57,7 +57,14 @@ const RecipesInProgress = () => {
                   ? recipe.strMeal
                   : recipe.strDrink }
               />
-              <h2 data-testid="recipe-title">f</h2>
+              <h2 data-testid="recipe-title">
+                {
+                  (name === 'meals')
+                    ? recipe.strMeal
+                    : recipe.strDrink
+                }
+
+              </h2>
               <button
                 type="button"
                 data-testid="share-btn"
@@ -72,7 +79,7 @@ const RecipesInProgress = () => {
                 favoritar
 
               </button>
-              <h3 data-testid="recipe-category">categoria</h3>
+              <h3 data-testid="recipe-category">{recipe.strCategory}</h3>
               <ul>
                 {['AAA', 'BBB', 'd', 'j', 'k', 'hj', 'j', 'j'].map((e, index) => (
                   <li
