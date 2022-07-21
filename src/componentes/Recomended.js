@@ -1,17 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import React, { useContext, useEffect, useState } from 'react';
+import ButtonRecipe from './ButtonRecipe';
+import myContext from '../context/myContext';
 
 const Recommend = () => {
-  const history = useHistory();
-  const { location: { pathname } } = history;
+  const { pathname } = useContext(myContext);
   const [recommends, setRecommends] = useState([]);
   const [carrousel, setCarrousel] = useState([]);
   const [start, setStart] = useState(0);
   const [end, setEnd] = useState(start + 2);
 
-  const rota = history.location.pathname.includes('/drinks') ? 'meals' : 'drinks';
+  const rota = pathname.includes('/drinks') ? 'meals' : 'drinks';
 
   const id = rota === 'meals' ? 'idMeal' : 'idDrink';
+  const six = 6;
 
   const fetchRecommend = async () => {
     const urlRecommendDrink = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
@@ -20,13 +21,13 @@ const Recommend = () => {
     if (pathname.includes('food')) {
       const apiRecommendDrink = await fetch(urlRecommendDrink);
       const data = await apiRecommendDrink.json();
-      const firstSix = data[rota].slice(0, 6);
+      const firstSix = data[rota].slice(0, six);
       setRecommends(firstSix);
       setCarrousel(firstSix.slice(start, end));
     } else {
       const apiRecommendMeal = await fetch(urlRecommendMeal);
       const data = await apiRecommendMeal.json();
-      const firstSix = data[rota].slice(0, 6);
+      const firstSix = data[rota].slice(0, six);
       setRecommends(firstSix);
       setCarrousel(firstSix.slice(start, end));
     }
@@ -36,15 +37,16 @@ const Recommend = () => {
     fetchRecommend();
   }, []);
 
+  const four = 4;
   useEffect(() => {
-    if (end > 6) {
+    if (end > six) {
       setStart(0);
       setEnd(2);
       return;
     }
     if (start < 0) {
-      setStart(4);
-      setEnd(6);
+      setStart(four);
+      setEnd(six);
       return;
     }
     setCarrousel(recommends.slice(start, end));
@@ -97,13 +99,7 @@ const Recommend = () => {
       >
         Next
       </button>
-      <button
-        name="next"
-        style={ { position: 'fixed', bottom: '0px', width: '10%', height: '7%' } }
-        type="button"
-      >
-        Start Recipe
-      </button>
+      <ButtonRecipe />
     </div>
 
   );
