@@ -1,11 +1,14 @@
-import React, { /* useContext  */ useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
-/* import context from '../context/myContext'; */
+import React, { useEffect, useState } from 'react';
+import { useHistory, useParams } from 'react-router-dom';
 import '../style/RecipeInProgress.css';
 
 const RecipesInProgress = () => {
-  /*  const contexto = useContext(context); */
   const history = useHistory();
+  const { id } = useParams();
+
+  const [recipe, setRecipe] = useState('');
+  const [name, setName] = useState('');
+
   const handleClick = (target) => {
     const completed = target.parentNode;
     completed.className = 'completed';
@@ -13,62 +16,90 @@ const RecipesInProgress = () => {
       JSON.stringify([completed]));
   };
 
+  const fetchRecipeId = async (url) => {
+    console.log(name);
+    const RecipeFromId = await fetch(url);
+    const data = await RecipeFromId.json();
+    const info = data[name][0];
+    setRecipe(info);
+    console.log(data);
+    console.log(info);
+  };
+
   useEffect(() => {
-    const rota = history.location.pathname === '/foods' ? 'meals' : 'drinks';
-    const idRecipe = match.params.id;
-    const url = rota === 'meals' ? `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${idRecipe}` : `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${idRecipe}`;
-    console.log(url);
-  }, []);
+    const rota = history.location.pathname.includes('food') ? 'meals' : 'drinks';
+    let url = '';
+    if (rota === 'meals') {
+      url = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`;
+      setName('meals');
+    } else {
+      url = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`;
+      setName('drinks');
+    }
+    fetchRecipeId(url);
+  }, [name]);
 
   return (
     <>
       <h1>Recipes In Progress</h1>
-      <div>
-        <img
-          src=""
-          alt=""
-          data-testid="recipe-photo"
-        />
-        <h2 data-testid="recipe-title">f</h2>
-        <button
-          type="button"
-          data-testid="share-btn"
-        >
-          compartilhar
-
-        </button>
-        <button
-          type="button"
-          data-testid="favorite-btn"
-        >
-          favoritar
-
-        </button>
-        <h3 data-testid="recipe-category">categoria</h3>
-        <ul>
-          {['AAA', 'BBB', 'd', 'j', 'k', 'hj', 'j', 'j'].map((e, index) => (
-            <li
-              data-testid={ `${index}-ingredient-step` }
-              key={ index }
-            >
-              <input
-                type="checkbox"
-                onClick={ ({ target }) => handleClick(target) }
+      {
+        (recipe === '')
+          ? <p>Loading... </p>
+          : (
+            <div>
+              <img
+                style={ { width: '250px' } }
+                data-testid="recipe-photo"
+                src={ (name === 'meals')
+                  ? recipe.strMealThumb
+                  : recipe.strDrinkThumb }
+                alt={ (name === 'meals')
+                  ? recipe.strMeal
+                  : recipe.strDrink }
               />
-              {e}
-            </li>
-          ))}
-        </ul>
-        <p data-testid="instructions">instruction</p>
-        <button
-          type="button"
-          data-testid="finish-recipe-btn"
-        >
-          Finalizar
+              <h2 data-testid="recipe-title">f</h2>
+              <button
+                type="button"
+                data-testid="share-btn"
+              >
+                compartilhar
 
-        </button>
+              </button>
+              <button
+                type="button"
+                data-testid="favorite-btn"
+              >
+                favoritar
 
-      </div>
+              </button>
+              <h3 data-testid="recipe-category">categoria</h3>
+              <ul>
+                {['AAA', 'BBB', 'd', 'j', 'k', 'hj', 'j', 'j'].map((e, index) => (
+                  <li
+                    data-testid={ `${index}-ingredient-step` }
+                    key={ index }
+                  >
+                    <input
+                      type="checkbox"
+                      onClick={ ({ target }) => handleClick(target) }
+                    />
+                    {e}
+                  </li>
+                ))}
+              </ul>
+              <p data-testid="instructions">instruction</p>
+              <button
+                type="button"
+                data-testid="finish-recipe-btn"
+              >
+                Finalizar
+
+              </button>
+
+            </div>
+          )
+      }
+
     </>
   );
 };
