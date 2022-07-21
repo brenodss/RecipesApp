@@ -8,12 +8,22 @@ const RecipesInProgress = () => {
 
   const [recipe, setRecipe] = useState('');
   const [name, setName] = useState('');
+  const [ingredients, setIngredients] = useState([]);
+  /*   const [checked, setChecked] = useState([{ chave: true }]); */
 
+  // presisa salvar o checked em um arrey
   const handleClick = (target) => {
-    const completed = target.parentNode;
-    completed.className = 'completed';
-    localStorage.setItem('inProgressRecipes',
-      JSON.stringify([completed]));
+    target.parentNode.className = 'completed';
+  };
+
+  // essa função filtra apenas os ingredientes e salva em um array no estado ingrets
+  const ingredientArray = (obj) => {
+    const arrayInfo = Object.entries(obj);
+    const ingredient = arrayInfo
+      .filter((eachArray) => eachArray[0].includes('Ingredient'));
+    const ingredientFiltered = ingredient
+      .filter((e) => e[1] !== null && e[1] !== '');
+    setIngredients(ingredientFiltered);
   };
 
   const fetchRecipeId = async (url) => {
@@ -21,10 +31,12 @@ const RecipesInProgress = () => {
     const data = await RecipeFromId.json();
     const info = data[name];
     if (info && info.length > 0) {
+      // com o url definido é feito o fetch, salvo o obj no estado e manda o mesmo obj para a função ingredientArray()
       setRecipe(info[0]);
+      ingredientArray(info[0]);
     }
   };
-
+  // no useEffect é definada a rota e conforme o pathname é definido o url
   useEffect(() => {
     const rota = history.location.pathname.includes('food') ? 'meals' : 'drinks';
     let url = '';
@@ -80,18 +92,24 @@ const RecipesInProgress = () => {
               </button>
               <h3 data-testid="recipe-category">{recipe.strCategory}</h3>
               <ul>
-                {['AAA', 'BBB', 'd', 'j', 'k', 'hj', 'j', 'j'].map((e, index) => (
-                  <li
-                    data-testid={ `${index}-ingredient-step` }
-                    key={ index }
-                  >
-                    <input
-                      type="checkbox"
-                      onClick={ ({ target }) => handleClick(target) }
-                    />
-                    {e}
-                  </li>
-                ))}
+                { (ingredients === [])
+                  ? <p>Loading... </p>
+                  : (
+                    ingredients.map((e, index) => (
+                      <li
+                        data-testid={ `${index}-ingredient-step` }
+                        key={ index }
+                      >
+                        <input
+                          type="checkbox"
+                          onClick={ ({ target }) => handleClick(target) }
+                          /* onChange={ () => setChecked(!checked) } */
+                          checked={ checked[0].chave }
+                        />
+                        {e[1]}
+                      </li>
+                    ))
+                  )}
               </ul>
               <p data-testid="instructions">instruction</p>
               <button
