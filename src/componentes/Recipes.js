@@ -10,12 +10,15 @@ const Recipes = () => {
   const [categorys, setCategorys] = useState([]); // <-- lista de botões
   const [beforeSearch, setBeforeSearch] = useState([]); // <-- receitas padrão
   const [filtered, setFiltered] = useState([]); // <-- receitas por categoria
+  const { location: { pathname } } = history;
+
   const [toggleFilter, setToggleFilter] = useState(false);
 
   const Doze = 12;
   const Cinco = 5;
 
-  const rota = history.location.pathname === '/foods' ? 'meals' : 'drinks';
+  console.log(pathname);
+  const rota = pathname === '/foods' ? 'meals' : 'drinks';
 
   const id = rota === 'meals' ? 'idMeal' : 'idDrink';
 
@@ -39,19 +42,21 @@ const Recipes = () => {
 
   useEffect(() => {
     setSelected('beforeSearch');
-
+    console.log(rota);
     let urlRecipes = '';
     let urlCategorys = '';
     if (rota === 'meals') {
+      console.log('entrou meals');
       urlRecipes = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
       urlCategorys = 'https://www.themealdb.com/api/json/v1/1/list.php?c=list';
     }
     if (rota === 'drinks') {
+      console.log('entrou drinks');
       urlRecipes = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
       urlCategorys = 'https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list';
     }
     fetchRecipe(urlRecipes, urlCategorys);
-  }, []);
+  }, [pathname]);
 
   const handleButton = async (category) => {
     if (toggleFilter) {
@@ -97,7 +102,7 @@ const Recipes = () => {
               <h2 data-testid={ `${i}-card-name` }>
                 {rota === 'meals' ? meal.strMeal : meal.strDrink}
               </h2>
-              <Link to={ `${history.location.pathname}/${meal[id]}` }>
+              <Link to={ `${pathname}/${meal[id]}` }>
                 <img
                   style={ { width: '250px' } }
                   alt="receita"
