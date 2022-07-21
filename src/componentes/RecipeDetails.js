@@ -64,7 +64,10 @@ function RecipesDetails() {
                   ? infoDetails.strMeal
                   : infoDetails.strDrink}
               </h1>
-              <h2 data-testid="recipe-category">{infoDetails.strCategory }</h2>
+              <h2 data-testid="recipe-category">
+                {pathname.includes('food')
+                  ? infoDetails.strCategory : infoDetails.strAlcoholic}
+              </h2>
               <ul>
                 { (ingredients.length && measures.length === 0)
                   ? <p>Loading... </p>

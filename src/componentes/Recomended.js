@@ -77,9 +77,9 @@ const Recommend = () => {
         Previous
 
       </button>
-      {carrousel?.map((recipe) => (
+      {carrousel && carrousel.map((recipe, index) => (
         <div key={ recipe[id] }>
-          <div>
+          <div data-testid={ `${index}-recomendation-card` }>
             <h2>
               {recipe[rota === 'meals' ? 'strMeal' : 'strDrink']}
             </h2>
