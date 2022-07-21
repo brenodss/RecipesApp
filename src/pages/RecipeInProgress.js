@@ -17,13 +17,12 @@ const RecipesInProgress = () => {
   };
 
   const fetchRecipeId = async (url) => {
-    console.log(name);
     const RecipeFromId = await fetch(url);
     const data = await RecipeFromId.json();
-    const info = await data[name][0];
-    setRecipe(info);
-    console.log(data);
-    console.log(info);
+    const info = data[name];
+    if (info && info.length > 0) {
+      setRecipe(info[0]);
+    }
   };
 
   useEffect(() => {
