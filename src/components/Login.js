@@ -28,6 +28,7 @@ const Login = ({ history }) => {
     localStorage.setItem('user', JSON.stringify({ email: user.email }));
     localStorage.setItem('mealsToken', 1);
     localStorage.setItem('cocktailsToken', 1);
+    localStorage.setItem('doneRecipes', JSON.stringify([{ id: '1525125125' }]));
     history.push('/foods');
   };
 

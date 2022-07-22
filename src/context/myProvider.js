@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { useHistory } from 'react-router-dom';
 import MyContext from './myContext';
 
 const Provider = ({ children }) => {
+  const history = useHistory();
+
+  const { location: { pathname } } = history;
   const [user, setUser] = useState({
     email: '',
     password: '',
@@ -22,6 +26,8 @@ const Provider = ({ children }) => {
     setRecipe,
     selected,
     setSelected,
+    pathname,
+    history,
   };
 
   return (

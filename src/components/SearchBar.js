@@ -12,12 +12,12 @@ import myContext from '../context/myContext';
 // www.themealdb.com/api/json/v1/1/filter.php?i=chicken_breast
 
 const Search = () => {
-  const { input, recipe, setRecipe, setSelected } = useContext(myContext);
+  const { input, recipe, setRecipe, setSelected, pathname } = useContext(myContext);
   const [radio, setRadio] = useState('');
 
   const history = useHistory();
 
-  const rota = history.location.pathname === '/foods'
+  const rota = pathname === '/foods'
     ? 'meals' : 'drinks';
 
   const handleRadios = ({ target }) => {
@@ -46,16 +46,16 @@ const Search = () => {
     const id = recipe[rota]?.length > 0 && Object.values(recipe[rota][0]);
     if ((recipe?.drinks?.length === recipeLength
       || recipe?.meals?.length === recipeLength)
-      && (history.location.pathname === '/foods'
-      || history.location.pathname === '/drinks')) {
+      && (pathname === '/foods'
+      || pathname === '/drinks')) {
       console.log(id);
-      history.push(`${history.location.pathname}/${id[0]}`); // <--
+      history.push(`${pathname}/${id[0]}`); // <--
     }
   }, [recipe]);
 
   const handleButton = async () => {
     setSelected('search');
-    const pageLocation = history.location.pathname;
+    const pageLocation = pathname;
     let ingred = '';
     let nome = '';
     let firstLetter = '';
