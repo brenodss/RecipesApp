@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
+import Recommend from './Recomended';
 
 function RecipesDetails() {
   const { id } = useParams();
@@ -109,6 +110,7 @@ function RecipesDetails() {
               )) }
             </div>)
       }
+      <Recommend />
     </div>
   );
 }
