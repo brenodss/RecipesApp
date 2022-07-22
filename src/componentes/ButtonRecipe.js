@@ -6,57 +6,65 @@ const ButtonRecipe = () => {
   const { id } = useParams();
   const { pathname } = useContext(myContext);
   const startString = 'Start Recipe';
-  const [buttonVisible, setButtonVisible] = useState(true);
+  const [buttonVisible, setButtonVisible] = useState(false);
   const [buttonText, setButtonText] = useState(startString);
 
-  const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes'));
-  const recipesInProgress = JSON.parse(localStorage.getItem('recipesInProgress'));
-  const keyOfObject = pathname.includes('/foods') ? 'cocktails' : 'meals';
+  const keyOfObject = pathname.includes('/foods') ? 'meals' : 'cocktails';
 
-  const isInProgress = recipesInProgress && Object.keys(recipesInProgress[keyOfObject])
+  const recipesInProgress = JSON.parse(localStorage.getItem('inProgressRecipes'));
+  const recipesDone = JSON.parse(localStorage.getItem('doneRecipes'));
+
+  const existProgress = recipesInProgress !== null // false se nao tem ou nao criei
+  && Object.keys(recipesInProgress[keyOfObject])
     .some((recipe) => recipe === id);
-  const haveDone = doneRecipes && doneRecipes.some((recipe) => recipe.id === id);
+
+  const existDone = recipesDone !== null // false se nao tem ou nao criei ainda
+  && recipesDone.some((recipe) => recipe.id === id);
 
   const handleButton = () => {
-    if (!isInProgress && !haveDone) {
-      return localStorage.setItem('recipesInProgress', JSON.stringify({
+    if (existProgress) {
+      const objetoExistente = JSON.stringify({
         ...recipesInProgress,
         [keyOfObject]: {
           ...recipesInProgress[keyOfObject],
-          [id]: '[lista-de-ingredientes-utilizados]',
-        },
-      }));
+          [id]: ['lista-de-ingredientes-utilizados'],
+        } });
+      return localStorage.setItem('inProgressRecipes', objetoExistente);
     }
+
+    const objetoInexistente = JSON.stringify({
+      [keyOfObject]: {
+        [id]: ['lista-de-ingredientes-utilizados'],
+      } });
+    return localStorage.setItem('inProgressRecipes', objetoInexistente);
   };
 
   useEffect(() => {
-    if (haveDone) {
+    if (!existProgress && !existDone) {
+      setButtonText('Start Recipe');
       return setButtonVisible(true);
     }
-    if (isInProgress && !haveDone) {
-      return setButtonText('Continue Recipe');
+
+    if ((!existDone && existProgress)) {
+      setButtonText('Continue Recipe');
+      return setButtonVisible(true);
     }
-    setButtonVisible(false);
+
+    if (existDone) {
+      return setButtonVisible(false);
+    }
   }, []);
 
   return (
-    (!buttonVisible && buttonText === startString)
-      ? (
+    (buttonVisible)
+      && (
         <button
+          data-testid="start-recipe-btn"
           onClick={ handleButton }
           style={ { position: 'fixed', bottom: '0px', width: '10%', height: '7%' } }
           type="button"
         >
-          Start Recipe
-        </button>
-      )
-      : (
-        <button
-          onClick={ handleButton }
-          style={ { position: 'fixed', bottom: '0px', width: '10%', height: '7%' } }
-          type="button"
-        >
-          Continue Recipe
+          {buttonText}
         </button>
       )
   );
