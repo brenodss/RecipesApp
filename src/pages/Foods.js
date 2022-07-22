@@ -1,8 +1,8 @@
 import React from 'react';
-import Header from '../componentes/Header';
-import Recipes from '../componentes/Recipes';
-import Search from '../componentes/SearchBar';
-import Footer from '../componentes/Footer';
+import Header from '../components/Header';
+import Recipes from '../components/Recipes';
+import Search from '../components/SearchBar';
+import Footer from '../components/Footer';
 
 const Foods = () => (
   <div>
