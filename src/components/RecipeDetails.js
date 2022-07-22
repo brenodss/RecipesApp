@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import Recommend from './Recomended';
 
+const copy = require('clipboard-copy');
+
 function RecipesDetails() {
   const { id } = useParams();
   const history = useHistory();
@@ -10,6 +12,8 @@ function RecipesDetails() {
   const [measures, setMeasures] = useState([]);
   const [name, setName] = useState('');
   const { location: { pathname } } = history;
+
+  const rota = pathname.includes('/food') ? 'meals' : 'drinks';
 
   const infoWorked = (info) => {
     setInfoDetails(info);
@@ -20,7 +24,6 @@ function RecipesDetails() {
       .filter((eachArray) => eachArray[0].includes('Measure'));
     setIngredients(ingredient);
     setMeasures(measure);
-    console.log(info.strYoutube);
   };
 
   const fetchDetailsApi = async () => {
@@ -41,9 +44,32 @@ function RecipesDetails() {
       infoWorked(info);
     }
   };
+
+  const handleClick = ({ target }) => {
+    console.log(target.value);
+    if (target.value === 'compartilhar') {
+      console.log('dentro');
+      global.alert('Link copied!');
+      copy(`http://localhost:3000${pathname}`);
+    }
+
+    if (target.value === 'compartilhar') {
+      localStorage.setItem('favoriteRecipes', JSON.stringify({
+        id: (rota === 'meals' ? infoDetails.idMeals : infoDetails.idDrinks),
+        type: infoDetails.strTags,
+        nationality: infoDetails.strArea,
+        category: infoDetails.strCategory,
+        alcoholicOrNot: rota === 'meals' ? '' : infoDetails.idDrinks,
+        name: rota === 'meals' ? infoDetails.idMeals : infoDetails.idDrinks,
+        image: rota === 'meals' ? infoDetails.idMeals : infoDetails.idDrinks,
+      }));
+    }
+  };
+
   useEffect(() => {
     fetchDetailsApi();
   }, []);
+
   return (
     <div>
       {
@@ -65,6 +91,20 @@ function RecipesDetails() {
                   ? infoDetails.strMeal
                   : infoDetails.strDrink}
               </h1>
+              <button
+                onClick={ handleClick }
+                type="button"
+                data-testid="share-btn"
+              >
+                compartilhar
+              </button>
+              <button
+                onClick={ handleClick }
+                type="button"
+                data-testid="favorite-btn"
+              >
+                favoritar
+              </button>
               <h2 data-testid="recipe-category">
                 {pathname.includes('food')
                   ? infoDetails.strCategory : infoDetails.strAlcoholic}
