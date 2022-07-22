@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import '../style/RecipeInProgress.css';
+import CheckedInput from '../components/CheckedInput';
 
 const RecipesInProgress = () => {
   const history = useHistory();
@@ -9,12 +10,25 @@ const RecipesInProgress = () => {
   const [recipe, setRecipe] = useState('');
   const [name, setName] = useState('');
   const [ingredients, setIngredients] = useState([]);
-  /*   const [checked, setChecked] = useState([{ chave: true }]); */
+  /*   const [checked, setChecked] = useState([]); */
 
   // presisa salvar o checked em um arrey
-  const handleClick = (target) => {
+  /*  const handleClick = (target) => {
     target.parentNode.className = 'completed';
-  };
+    setChecked([...checked, target.name]);
+  }; */
+
+  /* useEffect(() => {
+    const readcheckedRecipes = JSON.parse(localStorage.getItem('inProgressRecipes'))
+    || { [id]: [] };
+    console.log(readcheckedRecipes);
+    localStorage
+      .setItem('inProgressRecipes', JSON.stringify(
+        { ...readcheckedRecipes,
+          [id]: checked,
+        },
+      ));
+  }, [checked]); */
 
   // essa função filtra apenas os ingredientes e salva em um array no estado ingrets
   const ingredientArray = (obj) => {
@@ -100,13 +114,15 @@ const RecipesInProgress = () => {
                         data-testid={ `${index}-ingredient-step` }
                         key={ index }
                       >
-                        <input
+                        <CheckedInput ingredients={ e[1] } />
+                        {/*   <input
                           type="checkbox"
                           onClick={ ({ target }) => handleClick(target) }
-                          /* onChange={ () => setChecked(!checked) } */
+                            onChange={ () => setChecked(!checked) }
                           checked={ checked[0].chave }
+                          name={ e[1] }
                         />
-                        {e[1]}
+                        {e[1]} */}
                       </li>
                     ))
                   )}
