@@ -13,37 +13,26 @@ const RecipesInProgress = () => {
   const keyOfObject = pathname.includes('/foods') ? 'meals' : 'cocktails';
 
   // presisa salvar o checked em um arrey
-  const handleClick = (e, index) => {
+  const handleClick = (ingredient, index) => {
     const inProgress = localStorage.getItem('inProgressRecipes');
 
     // const changeValue = {};
 
-    console.log(ingredients[index].value);
-
     const readcheckedRecipes = inProgress !== null && JSON
       .parse(localStorage.getItem('inProgressRecipes'));
 
-    const choosen = [
-      ...ingredients,
-      {
-        [ingredients[index]]: {
-          name: ingredients[index].name,
-          value: !ingredients[index].value,
-        } },
-    ];
+    const clickedRadio = {
+      ...ingredient,
+      value: !ingredient.value,
+    };
 
-    console.log(choosen);
+    ingredients.splice(index, 1, clickedRadio);
+
+    // console.log(e, clickedRadio);
 
     setIngredients(
-      [choosen],
+      [...ingredients],
     );
-
-    console.log(ingredients);
-
-    const marked = ingredients.filter((ingred) => ingred
-      .value === true).map((names) => names.name);
-
-    console.log(marked);
 
     /*     if (readcheckedRecipes) {
       return localStorage
@@ -167,7 +156,7 @@ const RecipesInProgress = () => {
                 { (ingredients === [])
                   ? <p>Loading... </p>
                   : (
-                    ingredients.map((e, index) => (
+                    ingredients.map((ingredient, index) => (
                       <li
                         data-testid={ `${index}-ingredient-step` }
                         key={ index }
@@ -175,11 +164,11 @@ const RecipesInProgress = () => {
                         {/*  <CheckedInput ingredients={ e[1] } /> */}
                         <input
                           type="checkbox"
-                          onChange={ () => handleClick(e, index) }
-                          checked={ e.value }
-                          name={ e.name }
+                          onChange={ () => handleClick(ingredient, index) }
+                          checked={ ingredient.value }
+                          name={ ingredient.name }
                         />
-                        {e.name}
+                        {ingredient.name}
                       </li>
                     ))
                   )}

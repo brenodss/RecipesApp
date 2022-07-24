@@ -5,11 +5,11 @@ import myContext from '../context/myContext';
 const recipesInProgress = JSON.parse(localStorage.getItem('inProgressRecipes'));
 const recipesDone = JSON.parse(localStorage.getItem('doneRecipes'));
 
-const existProgress = (key, id) => recipesInProgress !== null // false se nao tem ou nao criei
+const existProgress = (key, id) => recipesInProgress // false se nao tem ou nao criei
 && Object.keys(recipesInProgress[key])
   .some((recipe) => recipe === id);
 
-const existDone = (id) => recipesDone !== null // false se nao tem ou nao criei ainda
+const existDone = (id) => recipesDone// false se nao tem ou nao criei ainda
   && recipesDone.some((recipe) => recipe.id === id);
 
 const ButtonRecipe = () => {
