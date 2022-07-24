@@ -14,3 +14,11 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.carrosel {
+  display: flex;
+  flex-wrap: nowwrap;
+  justify-content: left;
+  overflow-x: scroll;
+  max-width: 340px;
+}

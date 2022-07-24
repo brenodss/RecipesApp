@@ -1,43 +1,91 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import '../style/RecipeInProgress.css';
-import CheckedInput from '../components/CheckedInput';
+import myContext from '../context/myContext';
 
 const RecipesInProgress = () => {
+  const { pathname } = useContext(myContext);
   const history = useHistory();
   const { id } = useParams();
-
   const [recipe, setRecipe] = useState('');
   const [name, setName] = useState('');
   const [ingredients, setIngredients] = useState([]);
-  /*   const [checked, setChecked] = useState([]); */
+  const keyOfObject = pathname.includes('/foods') ? 'meals' : 'cocktails';
 
   // presisa salvar o checked em um arrey
-  /*  const handleClick = (target) => {
-    target.parentNode.className = 'completed';
-    setChecked([...checked, target.name]);
-  }; */
+  const handleClick = (ingredient, index) => {
+    const inProgress = localStorage.getItem('inProgressRecipes');
 
-  /* useEffect(() => {
-    const readcheckedRecipes = JSON.parse(localStorage.getItem('inProgressRecipes'))
-    || { [id]: [] };
-    console.log(readcheckedRecipes);
+    // const changeValue = {};
+
+    const readcheckedRecipes = inProgress !== null && JSON
+      .parse(localStorage.getItem('inProgressRecipes'));
+
+    const clickedRadio = {
+      ...ingredient,
+      value: !ingredient.value,
+    };
+
+    ingredients.splice(index, 1, clickedRadio);
+
+    // console.log(e, clickedRadio);
+
+    setIngredients(
+      [...ingredients],
+    );
+
+    /*     if (readcheckedRecipes) {
+      return localStorage
+        .setItem('inProgressRecipes', JSON.stringify(
+          { ...readcheckedRecipes,
+            [keyOfObject]: {
+              ...readcheckedRecipes[keyOfObject],
+              [id]: [...readcheckedRecipes[keyOfObject][id], e.name],
+            },
+          },
+        ));
+    }
+
     localStorage
       .setItem('inProgressRecipes', JSON.stringify(
-        { ...readcheckedRecipes,
-          [id]: checked,
+        { [keyOfObject]: {
+          [id]: [target.name],
         },
-      ));
-  }, [checked]); */
-
+        },
+      )); */
+  };
+  /*   useEffect(() => {
+    const readcheckedRecipes = JSON.parse(localStorage.getItem('inProgressRecipes'))
+    || { [id]: [] };
+    console.log(ingredients);
+    console.log(readcheckedRecipes[id]);
+    ingredients.forEach((e, i) => {
+      console.log(e[1]);
+      if (e[1] === readcheckedRecipes[id][i]) {
+        e[1].setAttribute('checked', true);
+      }
+    });
+  }, []); */
+  /*   useEffect(() => {
+    const readcheckedRecipes = JSON.parse(localStorage.getItem('inProgressRecipes'))
+    console.log(readcheckedRecipes[id]);
+    if(readcheckedRecipes[id].some((e) => e === ))
+  }, []) */
   // essa função filtra apenas os ingredientes e salva em um array no estado ingrets
+
   const ingredientArray = (obj) => {
     const arrayInfo = Object.entries(obj);
+
     const ingredient = arrayInfo
-      .filter((eachArray) => eachArray[0].includes('Ingredient'));
-    const ingredientFiltered = ingredient
-      .filter((e) => e[1] !== null && e[1] !== '');
-    setIngredients(ingredientFiltered);
+      .filter((eachArray) => eachArray[0].includes('Ingredient')
+      && (eachArray[1] !== null && eachArray[1] !== ''));
+
+    const ingredientObject = ingredient.map((ingreds) => ({
+      name: ingreds[1],
+      value: false,
+    }));
+
+    setIngredients(ingredientObject);
   };
 
   const fetchRecipeId = async (url) => {
@@ -50,7 +98,9 @@ const RecipesInProgress = () => {
       ingredientArray(info[0]);
     }
   };
+
   // no useEffect é definada a rota e conforme o pathname é definido o url
+
   useEffect(() => {
     const rota = history.location.pathname.includes('food') ? 'meals' : 'drinks';
     let url = '';
@@ -88,41 +138,37 @@ const RecipesInProgress = () => {
                     ? recipe.strMeal
                     : recipe.strDrink
                 }
-
               </h2>
               <button
                 type="button"
                 data-testid="share-btn"
               >
                 compartilhar
-
               </button>
               <button
                 type="button"
                 data-testid="favorite-btn"
               >
                 favoritar
-
               </button>
               <h3 data-testid="recipe-category">{recipe.strCategory}</h3>
               <ul>
                 { (ingredients === [])
                   ? <p>Loading... </p>
                   : (
-                    ingredients.map((e, index) => (
+                    ingredients.map((ingredient, index) => (
                       <li
                         data-testid={ `${index}-ingredient-step` }
                         key={ index }
                       >
-                        <CheckedInput ingredients={ e[1] } />
-                        {/*   <input
+                        {/*  <CheckedInput ingredients={ e[1] } /> */}
+                        <input
                           type="checkbox"
-                          onClick={ ({ target }) => handleClick(target) }
-                            onChange={ () => setChecked(!checked) }
-                          checked={ checked[0].chave }
-                          name={ e[1] }
+                          onChange={ () => handleClick(ingredient, index) }
+                          checked={ ingredient.value }
+                          name={ ingredient.name }
                         />
-                        {e[1]} */}
+                        {ingredient.name}
                       </li>
                     ))
                   )}
@@ -133,13 +179,10 @@ const RecipesInProgress = () => {
                 data-testid="finish-recipe-btn"
               >
                 Finalizar
-
               </button>
-
             </div>
           )
       }
-
     </>
   );
 };
