@@ -4,22 +4,22 @@ import '../style/RecipeInProgress.css';
 import myContext from '../context/myContext';
 
 const RecipesInProgress = () => {
-  const { pathname } = useContext(myContext);
+  // const { pathname } = useContext(myContext);
   const history = useHistory();
   const { id } = useParams();
   const [recipe, setRecipe] = useState('');
   const [name, setName] = useState('');
   const [ingredients, setIngredients] = useState([]);
-  const keyOfObject = pathname.includes('/foods') ? 'meals' : 'cocktails';
+  // const keyOfObject = pathname.includes('/foods') ? 'meals' : 'cocktails';
 
   // presisa salvar o checked em um arrey
   const handleClick = (ingredient, index) => {
-    const inProgress = localStorage.getItem('inProgressRecipes');
+    // const inProgress = localStorage.getItem('inProgressRecipes');
 
     // const changeValue = {};
 
-    const readcheckedRecipes = inProgress !== null && JSON
-      .parse(localStorage.getItem('inProgressRecipes'));
+    // const readcheckedRecipes = inProgress !== null && JSON
+    //  .parse(localStorage.getItem('inProgressRecipes'));
 
     const clickedRadio = {
       ...ingredient,

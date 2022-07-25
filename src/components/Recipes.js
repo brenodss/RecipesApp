@@ -6,7 +6,8 @@ import myContext from '../context/myContext';
 
 const Recipes = () => {
   const history = useHistory();
-  const { recipe, setSelected, selected } = useContext(myContext); // <-- pesquisa por ingred, letra ou nome
+  const { recipe, setSelected,
+    selected } = useContext(myContext); // <-- pesquisa por ingred, letra ou nome
   const [categorys, setCategorys] = useState([]); // <-- lista de botões
   const [beforeSearch, setBeforeSearch] = useState([]); // <-- receitas padrão
   const [filtered, setFiltered] = useState([]); // <-- receitas por categoria

@@ -14,6 +14,7 @@ const Provider = ({ children }) => {
   const [input, setInput] = useState('');
   const [recipe, setRecipe] = useState({});
   const [selected, setSelected] = useState([]);
+  const [favObject, setFavObject] = useState([]);
 
   // const [type, setType] = useState('');
 
@@ -28,6 +29,8 @@ const Provider = ({ children }) => {
     setSelected,
     pathname,
     history,
+    favObject,
+    setFavObject,
   };
 
   return (
