@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
+import getFavoriteObject from '../utilities/getFavoriteObject';
+import MidiaButtons from './MidiaButtons';
 import Recommend from './Recomended';
-
-const copy = require('clipboard-copy');
+import myContext from '../context/myContext';
 
 function RecipesDetails() {
   const { id } = useParams();
+  const { setFavObject } = useContext(myContext);
   const history = useHistory();
   const [infoDetails, setInfoDetails] = useState({});
   const [ingredients, setIngredients] = useState([]);
@@ -18,52 +20,30 @@ function RecipesDetails() {
   const infoWorked = (info) => {
     setInfoDetails(info);
     const arrayInfo = [Object.entries(info)];
+
     const ingredient = arrayInfo[0]
       .filter((eachArray) => eachArray[0].includes('Ingredient'));
+
     const measure = arrayInfo[0]
       .filter((eachArray) => eachArray[0].includes('Measure'));
+
     setIngredients(ingredient);
     setMeasures(measure);
   };
+  const stringRecipe = rota === 'meals' ? 'strMeal' : 'strDrink';
 
   const fetchDetailsApi = async () => {
-    if (pathname.includes('food')) {
-      setName('Food');
-      const urlDetailsFood = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`;
-      const fetchFoodApi = await fetch(urlDetailsFood);
-      const data = await fetchFoodApi.json();
-      const info = data.meals[0];
-      infoWorked(info);
-    }
-    if (pathname.includes('drink')) {
-      setName('Drink');
-      const urlDetailsDrinkApi = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`;
-      const fetchDrink = await fetch(urlDetailsDrinkApi);
-      const data = await fetchDrink.json();
-      const info = data.drinks[0];
-      infoWorked(info);
-    }
-  };
+    const link = rota === 'meals' ? `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`
+      : `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`;
 
-  const handleClick = ({ target }) => {
-    console.log(target.value);
-    if (target.value === 'compartilhar') {
-      console.log('dentro');
-      global.alert('Link copied!');
-      copy(`http://localhost:3000${pathname}`);
-    }
+    setName(rota === 'meals' ? 'Food' : 'Drink');
 
-    if (target.value === 'compartilhar') {
-      localStorage.setItem('favoriteRecipes', JSON.stringify({
-        id: (rota === 'meals' ? infoDetails.idMeals : infoDetails.idDrinks),
-        type: infoDetails.strTags,
-        nationality: infoDetails.strArea,
-        category: infoDetails.strCategory,
-        alcoholicOrNot: rota === 'meals' ? '' : infoDetails.idDrinks,
-        name: rota === 'meals' ? infoDetails.idMeals : infoDetails.idDrinks,
-        image: rota === 'meals' ? infoDetails.idMeals : infoDetails.idDrinks,
-      }));
-    }
+    const fetchFoodApi = await fetch(link);
+    const data = await fetchFoodApi.json();
+    const info = data[rota][0];
+    infoWorked(info);
+    console.log(getFavoriteObject(info, rota));
+    setFavObject(getFavoriteObject(info, rota));
   };
 
   useEffect(() => {
@@ -82,33 +62,17 @@ function RecipesDetails() {
                 src={ (name === 'Food')
                   ? infoDetails.strMealThumb
                   : infoDetails.strDrinkThumb }
-                alt={ (name === 'Food')
-                  ? infoDetails.strMeal
-                  : infoDetails.strDrink }
+                alt={ infoDetails[stringRecipe] }
               />
               <h1 data-testid="recipe-title">
-                {(name === 'Food')
-                  ? infoDetails.strMeal
-                  : infoDetails.strDrink}
+                {infoDetails[stringRecipe]}
               </h1>
-              <button
-                onClick={ handleClick }
-                type="button"
-                data-testid="share-btn"
-              >
-                compartilhar
-              </button>
-              <button
-                onClick={ handleClick }
-                type="button"
-                data-testid="favorite-btn"
-              >
-                favoritar
-              </button>
+
               <h2 data-testid="recipe-category">
                 {pathname.includes('food')
                   ? infoDetails.strCategory : infoDetails.strAlcoholic}
               </h2>
+              <MidiaButtons favoriteToSave={ getFavoriteObject(infoDetails, rota) } />
               <ul>
                 { (ingredients.length && measures.length === 0)
                   ? <p>Loading... </p>
