@@ -21,7 +21,6 @@ const MidiaButtons = ({ favoriteToSave }) => {
     const isFavorite = localStorage.getItem('favoriteRecipes') !== null
     && JSON.parse(localStorage.getItem('favoriteRecipes')).some((fav) => fav.id === id);
 
-    console.log(favObject);
     setFavorite(isFavorite);
   }, [id]);
 
@@ -42,14 +41,10 @@ const MidiaButtons = ({ favoriteToSave }) => {
     } else {
       const removeFav = currentyFavorites?.filter((fav) => fav.id !== id);
 
-      console.log(removeFav);
-      // currentyFavorites?.splice(removeFav, 1);
-
       setFavorite(false);
-      console.log(currentyFavorites);
 
       localStorage.setItem('favoriteRecipes', JSON.stringify(
-        removeFav,
+        [...removeFav],
       ));
     }
   };

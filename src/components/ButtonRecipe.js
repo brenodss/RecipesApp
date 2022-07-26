@@ -5,11 +5,15 @@ import myContext from '../context/myContext';
 const recipesInProgress = JSON.parse(localStorage.getItem('inProgressRecipes'));
 const recipesDone = JSON.parse(localStorage.getItem('doneRecipes'));
 
-const existProgress = (key, id) => recipesInProgress !== null // false se nao tem ou nao criei
-&& Object.keys(recipesInProgress[key])
+const keyToUse = (recipesInProgress
+  && Object.keys(recipesInProgress).find((key) => key === 'meals'))
+  ? 'meals' : 'drinks';
+
+const existProgress = (id) => (recipesInProgress !== null && keyToUse)
+&& Object.keys(recipesInProgress[keyToUse])
   .some((recipe) => recipe === id);
 
-const existDone = (id) => recipesDone !== null// false se nao tem ou nao criei ainda
+const existDone = (id) => recipesDone !== null
   && recipesDone.some((recipe) => recipe.id === id);
 
 const ButtonRecipe = () => {
@@ -24,7 +28,7 @@ const ButtonRecipe = () => {
   const [buttonText, setButtonText] = useState(startString);
 
   const handleButton = () => {
-    if (existProgress(keyOfObject, id)) {
+    if (existProgress(id)) {
       const objetoExistente = JSON.stringify({
         ...recipesInProgress,
         [keyOfObject]: {
@@ -46,12 +50,12 @@ const ButtonRecipe = () => {
   };
 
   useEffect(() => {
-    if (!existProgress(keyOfObject, id) && !existDone(id)) {
+    if (!existProgress(id) && !existDone(id)) {
       setButtonText('Start Recipe');
       return setButtonVisible(true);
     }
 
-    if ((!existDone(id) && existProgress(keyOfObject, id))) {
+    if ((!existDone(id) && existProgress(id))) {
       setButtonText('Continue Recipe');
       return setButtonVisible(true);
     }
