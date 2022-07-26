@@ -18,13 +18,17 @@ const Recommend = () => {
     if (pathname.includes('food')) {
       const apiRecommendDrink = await fetch(urlRecommendDrink);
       const data = await apiRecommendDrink.json();
-      const firstSix = data[rota].slice(0, six);
-      setRecommends(firstSix);
+      if (data[rota] !== undefined) {
+        const firstSix = data[rota].slice(0, six);
+        setRecommends(firstSix);
+      }
     } else {
       const apiRecommendMeal = await fetch(urlRecommendMeal);
       const data = await apiRecommendMeal.json();
-      const firstSix = data[rota].slice(0, six);
-      setRecommends(firstSix);
+      if (data[rota] !== undefined) {
+        const firstSix = data[rota].slice(0, six);
+        setRecommends(firstSix);
+      }
     }
   };
 
