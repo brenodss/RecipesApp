@@ -1,7 +1,7 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { /* useContext, */ useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import '../style/RecipeInProgress.css';
-import myContext from '../context/myContext';
+/* import myContext from '../context/myContext'; */
 
 const RecipesInProgress = () => {
   // const { pathname } = useContext(myContext);
