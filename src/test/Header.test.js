@@ -2,7 +2,7 @@ import { screen } from '@testing-library/react';
 
 import userEvent from '@testing-library/user-event';
 import renderWithRouter from './renderWithRouter';
-import Header from '../componentes/Header';
+import Header from '../components/Header';
 import Provider from '../context/myProvider';
 
 describe('Testa o Header da aplicação', () => {

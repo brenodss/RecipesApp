@@ -14,7 +14,7 @@ const existDone = (id) => recipesDone !== null// false se nao tem ou nao criei a
 
 const ButtonRecipe = () => {
   const { id } = useParams();
-  const { pathname, favObject } = useContext(myContext);
+  const { pathname /* favObject */ } = useContext(myContext);
   const keyOfObject = pathname.includes('/foods') ? 'meals' : 'cocktails';
   const rota = pathname.includes('/food') ? 'foods' : 'drinks';
   const history = useHistory();
