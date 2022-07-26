@@ -1,0 +1,33 @@
+* {
+  text-transform: uppercase;
+}
+
+.login-container {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  justify-content: center;
+  width: 100vw;
+}
+
+.login-container h1 {
+  font-size: 42px;
+  font-weight: 900;
+  line-height: 52px;
+}
+
+.login-container label {
+  color: white;
+  font-size: 16px;
+}
+
+.login-container input {
+  margin: 10px;
+  padding: 10px;
+}
+
+.login-container button {
+  color: black;
+  padding: 10px;
+}
