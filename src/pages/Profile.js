@@ -12,7 +12,11 @@ const Profile = () => {
       <Header title="Profile" />
       <div>
         <label htmlFor="email">
-          <input data-testid="profile-email" id="email" />
+          <input
+            data-testid="profile-email"
+            id="email"
+
+          />
         </label>
         <button
           data-testid="profile-done-btn"

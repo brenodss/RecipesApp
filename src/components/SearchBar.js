@@ -79,7 +79,7 @@ const Search = () => {
       handleFetchs(firstLetter);
       break;
     default:
-      return fetch;
+      return 'fetch';
     }
   };
 
