@@ -17,6 +17,7 @@ const MidiaButtons = ({ favoriteToSave }) => {
   useEffect(() => {
     const isFavorite = localStorage.getItem('favoriteRecipes') !== null
     && JSON.parse(localStorage.getItem('favoriteRecipes')).some((fav) => fav.id === id);
+    setFavorite(isFavorite);
   }, [id]);
 
   const handleClick = (string) => {
