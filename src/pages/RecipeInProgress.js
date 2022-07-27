@@ -62,7 +62,6 @@ const RecipesInProgress = () => {
       [...ingredients],
     );
   };
-  
   const showMessagem = (idPage) => {
     setIsCopied(true);
     let link = '';
@@ -191,7 +190,6 @@ const RecipesInProgress = () => {
                 type="button"
                 data-testid="finish-recipe-btn"
                 onClick={ () => history.push('/done-recipes') }
-                disabled={ finishButton }
               >
                 Finalizar
               </button>
