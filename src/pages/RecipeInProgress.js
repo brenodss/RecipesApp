@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import '../style/RecipeInProgress.css';
@@ -8,12 +9,14 @@ import whiteHeart from '../images/whiteHeartIcon.svg';
 import getFavoriteObject from '../utilities/getFavoriteObject';
 
 const RecipesInProgress = () => {
+
   const history = useHistory();
   const { id } = useParams();
   const [recipe, setRecipe] = useState('');
   const [name, setName] = useState('');
   const [ingredients, setIngredients] = useState([]);
   const [finishButton, setFinishButton] = useState(true);
+
   const [isCopied, setIsCopied] = useState(false);
   const [favorite, setFavorite] = useState(false);
   const [favoriteToSave, setfavoriteToSave] = useState({});
@@ -62,6 +65,7 @@ const RecipesInProgress = () => {
     );
   };
 
+
   const showMessagem = (idPage) => {
     setIsCopied(true);
     let link = '';
@@ -71,6 +75,7 @@ const RecipesInProgress = () => {
       link = `http://localhost:3000/drinks/${idPage}`;
     }
     clipboard(link);
+
   };
 
   const ingredientArray = (obj) => {
@@ -103,6 +108,9 @@ const RecipesInProgress = () => {
   // no useEffect é definada a rota e conforme o pathname é definido o url
 
   useEffect(() => {
+    const getProgress = inProgress !== null && JSON
+      .parse(localStorage.getItem('inProgressRecipes'));
+
     const rota = history.location.pathname.includes('food') ? 'meals' : 'drinks';
     let url = '';
     if (rota === 'meals') {
@@ -189,6 +197,7 @@ const RecipesInProgress = () => {
               </ul>
               <p data-testid="instructions">instruction</p>
               <button
+                disabled={ finishButton }
                 type="button"
                 data-testid="finish-recipe-btn"
                 onClick={ () => history.push('/done-recipes') }

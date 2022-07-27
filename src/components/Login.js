@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import context from '../context/myContext';
+import '../style/Login.css';
 
 const Login = ({ history }) => {
   const { user, setUser } = useContext(context);
@@ -37,9 +38,8 @@ const Login = ({ history }) => {
   }, [user]);
 
   return (
-    <>
+    <div className="login-container">
       <h2>Login</h2>
-
       <label htmlFor="emailLogin">
         Email
         <input
@@ -50,7 +50,6 @@ const Login = ({ history }) => {
           type="email"
         />
       </label>
-
       <label htmlFor="passwordLogin">
         Senha
         <input
@@ -61,7 +60,6 @@ const Login = ({ history }) => {
           type="password"
         />
       </label>
-
       <button
         onClick={ handleButton }
         disabled={ isDisable }
@@ -70,7 +68,7 @@ const Login = ({ history }) => {
       >
         Entrar
       </button>
-    </>
+    </div>
   );
 };
 
