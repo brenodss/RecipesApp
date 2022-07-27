@@ -5,17 +5,19 @@ import Header from '../components/Header';
 
 const Profile = () => {
   const history = useHistory();
+  const getEmailLocalStorage = JSON.parse(localStorage.getItem('user'));
+  console.log(getEmailLocalStorage);
   return (
 
     <div>
-      <h1>Profile</h1>
       <Header title="Profile" />
+      { getEmailLocalStorage
+       && <p data-testid="profile-email">{getEmailLocalStorage.email}</p>}
+
       <div>
         <label htmlFor="email">
           <input
-            data-testid="profile-email"
             id="email"
-
           />
         </label>
         <button

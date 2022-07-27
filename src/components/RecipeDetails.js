@@ -42,7 +42,6 @@ function RecipesDetails() {
     const data = await fetchFoodApi.json();
     const info = data[rota][0];
     infoWorked(info);
-    console.log(getFavoriteObject(info, rota));
     setFavObject(getFavoriteObject(info, rota));
   };
 
@@ -63,6 +62,7 @@ function RecipesDetails() {
                   ? infoDetails.strMealThumb
                   : infoDetails.strDrinkThumb }
                 alt={ infoDetails[stringRecipe] }
+                style={ { width: '250px' } }
               />
               <h1 data-testid="recipe-title">
                 {infoDetails[stringRecipe]}
