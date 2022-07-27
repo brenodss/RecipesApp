@@ -1,15 +1,12 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import copy from 'clipboard-copy';
 import PropTypes from 'prop-types';
 import blackHeart from '../images/blackHeartIcon.svg';
 import whiteHeart from '../images/whiteHeartIcon.svg';
 import share from '../images/shareIcon.svg';
-import myContext from '../context/myContext';
 
 const MidiaButtons = ({ favoriteToSave }) => {
-  const { favObject } = useContext(myContext);
-
   const [linkCopied, setLinkCopied] = useState('');
   const [favorite, setFavorite] = useState(false);
   const { id } = useParams();
@@ -20,7 +17,6 @@ const MidiaButtons = ({ favoriteToSave }) => {
   useEffect(() => {
     const isFavorite = localStorage.getItem('favoriteRecipes') !== null
     && JSON.parse(localStorage.getItem('favoriteRecipes')).some((fav) => fav.id === id);
-
     setFavorite(isFavorite);
   }, [id]);
 
